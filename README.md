@@ -8,82 +8,11 @@ You can easily reference Cake.Xamarin directly in your build script via a cake a
 #addin "Cake.FileHelpers"
 ```
 
-The following Aliases are available:
+## Aliases
 
-### FileReadText
-Reads all text from a file
-```csharp
-string FileReadText (FilePath projectFile)
-```
+Please visit the Cake Documentation for a list of available aliases:
 
-### FileReadLines
-Reads all lines of text from a file
-```csharp
-string[] FileReadLines (FilePath projectFile)
-```
-
-### FileWriteText
-Writes all text to a file (overwrites it if it already exists)
-```csharp
-void FileWriteText (FilePath projectFile, string text)
-```
-
-### FileWriteLines
-Writes all text lines to a file (overwrites it if it already exists)
-```csharp
-void FileWriteText (FilePath projectFile, string[] lines)
-```
-
-### FileAppendText
-Appends all text to a file (creates it if it does not already exist)
-```csharp
-void FileAppendText (FilePath projectFile, string text)
-```
-
-### FileAppendLines
-Appends all text lines to a file (creates it if it does not already exist)
-```csharp
-void FileAppendLines (FilePath projectFile, string[] lines)
-```
-
-
-### ReplaceTextInFiles
-Replaces `findText` with `replaceText` in files matching the `globberPattern`.  Returns the files that had text replaced in them.
-```csharp
-FilePath[] ReplaceTextInFiles (string globberPattern, string findText, string replaceText)
-```
-
-### ReplaceRegexInFiles
-Replaces `rxFindPattern` with `replaceText` in files matching the `globberPattern`.  Returns the files that had text replaced in them.
-```csharp
-FilePath[] ReplaceRegexInFiles (string globberPattern, string rxFindPattern, string replaceText)
-```
-
-### ReplaceRegexInFiles
-Replaces `rxFindPattern` with `replaceText` in files matching the `globberPattern`.  Returns the files that had text replaced in them.
-```csharp
-FilePath[] ReplaceRegexInFiles (string globberPattern, string rxFindPattern, string replaceText, RegexOptions rxOptions)
-```
-
-
-### FindRegexInFiles
-Finds files with contents matching `rxFindPattern` in files matching the `globberPattern`.  Returns the files found.
-```csharp
-FilePath[] FindRegexInFiles (string globberPattern, string rxFindPattern)
-```
-
-### FindRegexInFiles
-Finds files with contents matching `rxFindPattern` in files matching the `globberPattern`.  Returns the files found.
-```csharp
-FilePath[] FindRegexInFiles (string globberPattern, string rxFindPattern, RegexOptions rxOptions)
-```
-
-### FindTextInFiles
-Finds files with contents matching `findPattern` in files matching the `globberPattern`.  Returns the files found.
-```csharp
-FilePath[] FindTextInFiles (string globberPattern, string findPattern)
-```
-        
+http://cakebuild.net/dsl/file-helpers
 
 
 ## Apache License 2.0

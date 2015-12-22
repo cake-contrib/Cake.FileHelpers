@@ -9,3 +9,6 @@ nupkg/
 .nugetapikey
 xtc-api-key
 xtc-email
+
+#Cake
+[Tt]ools/

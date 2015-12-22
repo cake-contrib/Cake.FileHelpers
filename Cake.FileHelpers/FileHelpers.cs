@@ -1,5 +1,4 @@
-﻿using System;
-using Cake.Core.Annotations;
+﻿using Cake.Core.Annotations;
 using Cake.Core;
 using Cake.Core.IO;
 using System.IO;
@@ -13,6 +12,7 @@ namespace Cake.FileHelpers
 {
     /// <summary>
     /// File helper aliases.
+    /// A set of aliases for <see href="http://cakebuild.net">Cake Build</see> to help with simple File operations such as Reading, Writing and Replacing text.
     /// </summary>
     [CakeAliasCategory("File Helpers")]
     public static class FileHelperAliases
@@ -204,7 +204,7 @@ namespace Cake.FileHelpers
 
             Parallel.ForEach (files, f => {
                 var contents = FileReadText (context, f);
-                if (rx.IsMatch (contents)) 
+                if (rx.IsMatch (contents))
                     results.Add (f);
             });
 
@@ -227,7 +227,7 @@ namespace Cake.FileHelpers
 
             Parallel.ForEach (files, f => {
                 var contents = FileReadText (context, f);
-                if (contents.Contains (findPattern)) 
+                if (contents.Contains (findPattern))
                     results.Add (f);
             });
 

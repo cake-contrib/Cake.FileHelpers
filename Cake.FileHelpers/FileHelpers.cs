@@ -6,9 +6,14 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Cake.FileHelpers
 {
+    /// <summary>
+    /// File helper aliases.
+    /// </summary>
     [CakeAliasCategory("File Helpers")]
     public static class FileHelperAliases
     {
@@ -200,7 +205,7 @@ namespace Cake.FileHelpers
             Parallel.ForEach (files, f => {
                 var contents = FileReadText (context, f);
                 if (rx.IsMatch (contents)) 
-                    results.Add (f);                
+                    results.Add (f);
             });
 
             return results.ToArray ();
@@ -223,10 +228,56 @@ namespace Cake.FileHelpers
             Parallel.ForEach (files, f => {
                 var contents = FileReadText (context, f);
                 if (contents.Contains (findPattern)) 
-                    results.Add (f);                
+                    results.Add (f);
             });
 
             return results.ToArray ();
+        }
+
+        /// <summary>
+        /// Finds the regex matches in a text file.
+        /// </summary>
+        /// <returns>The regex matches in file.</returns>
+        /// <param name="context">Context.</param>
+        /// <param name="file">The text file.</param>
+        /// <param name="rxFindPattern">The regex pattern to search for.</param>
+        /// <param name="rxOptions">The regex options.</param>
+        [CakeMethodAlias]
+        public static List<string> FindRegexMatchesInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        {
+            if (!context.FileSystem.Exist (file))
+                return null;
+
+            var rx = new Regex (rxFindPattern, rxOptions);
+            var contents = FileReadText (context, file);
+
+            var values = new List<string> ();
+
+            var matches = rx.Matches (contents);
+            foreach (Match m in matches)
+                if (m.Success && m.Value != null)
+                    values.Add (m.Value);
+
+            return values;
+        }
+
+        /// <summary>
+        /// Finds the first regex match in a textfile.
+        /// </summary>
+        /// <returns>The first regex match in the file.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="rxFindPattern">The regex pattern to search for.</param>
+        /// <param name="rxOptions">The regex options.</param>
+        [CakeMethodAlias]
+        public static string FindRegexMatchInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        {
+            var values = FindRegexMatchesInFile (context, file, rxFindPattern, rxOptions);
+
+            if (values != null)
+                return values.FirstOrDefault ();
+
+            return null;
         }
     }
 }

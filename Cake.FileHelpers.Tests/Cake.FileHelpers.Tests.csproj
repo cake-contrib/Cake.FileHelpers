@@ -32,11 +32,11 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Cake.Common">
-      <HintPath>..\packages\Cake.0.5.3\Cake.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Cake.Core">
       <HintPath>..\packages\Cake.Core.0.7.0\lib\net45\Cake.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Cake.Testing">
+      <HintPath>..\packages\Cake.Testing.0.7.0\lib\net45\Cake.Testing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

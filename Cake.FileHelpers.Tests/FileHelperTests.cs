@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using Cake.Xamarin.Tests.Fakes;
-using Cake.Common.IO;
+using Cake.Core.IO;
 
 namespace Cake.FileHelpers.Tests
 {
@@ -15,10 +15,13 @@ namespace Cake.FileHelpers.Tests
         {
             context = new FakeCakeContext ();
 
-            if (context.CakeContext.DirectoryExists ("./testdata"))
-                context.CakeContext.CleanDirectory ("./testdata");
-            else 
-                context.CakeContext.CreateDirectory ("./testdata");
+            var dp = new DirectoryPath ("./testdata");
+            var d = context.CakeContext.FileSystem.GetDirectory (dp);
+
+            if (d.Exists)
+                d.Delete (true);
+
+            d.Create ();
         }
 
         [TearDown]

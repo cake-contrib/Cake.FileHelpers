@@ -31,10 +31,7 @@ namespace Cake.Xamarin.Tests.Fakes
         /// Gets the verbosity.
         /// </summary>
         /// <value>The verbosity.</value>
-        public Verbosity Verbosity
-        {
-            get { return Verbosity.Diagnostic; }
-        }
+        public Verbosity Verbosity { get; set; } = Verbosity.Diagnostic;
 
         /// <summary>
         /// Writes the text representation of the specified array of objects to the

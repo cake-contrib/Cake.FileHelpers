@@ -1,4 +1,4 @@
-#tool nuget:?package=NUnit.Console&version=3.6.0
+#tool nuget:?package=NUnit.ConsoleRunner&version=3.6.0
 
 var sln = "./Cake.FileHelpers.sln";
 var nuspec = "./Cake.FileHelpers.nuspec";

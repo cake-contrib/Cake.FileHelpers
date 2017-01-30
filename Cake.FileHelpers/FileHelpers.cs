@@ -111,7 +111,7 @@ namespace Cake.FileHelpers
         {
             var filename = file.MakeAbsolute(context.Environment).FullPath;
 
-            File.SetLastWriteTimeUtc(filename, DateTime.UtcNow);
+            File.SetLastWriteTimeUtc(filename, System.DateTime.UtcNow);
         }
 
         /// <summary>

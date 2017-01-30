@@ -102,6 +102,19 @@ namespace Cake.FileHelpers
         }
 
         /// <summary>
+        /// Sets the last write time of a file to the current time
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file to touch</param>
+        [CakeMethodAlias]
+        public static void FileTouch(this ICakeContext context, FilePath file)
+        {
+            var filename = file.MakeAbsolute(context.Environment).FullPath;
+
+            File.SetLastWriteTimeUtc(filename, DateTime.UtcNow);
+        }
+
+        /// <summary>
         /// Replaces the text in files matched by the given globber pattern
         /// </summary>
         /// <returns>The files that had text replaced in them.</returns>

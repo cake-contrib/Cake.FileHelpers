@@ -1,4 +1,4 @@
-#tool nuget:?package=NUnit.Runners&version=2.6.4
+#tool nuget:?package=NUnit.Runners&version=3.6.0
 
 var sln = "./Cake.FileHelpers.sln";
 var nuspec = "./Cake.FileHelpers.nuspec";
@@ -54,7 +54,7 @@ Task ("clean").Does (() =>
 
 Task("unit-tests").IsDependentOn("lib").Does(() =>
 {
-	NUnit("./**/bin/"+ configuration + "/*.Tests.dll");
+	NUnit3("./**/bin/"+ configuration + "/*.Tests.dll");
 });
 
 Task ("Default")

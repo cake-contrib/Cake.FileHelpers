@@ -1,12 +1,9 @@
 version: 1.0.4.{build}
-image: Visual Studio 2015
 configuration: Release
-before_build:
-- cmd: nuget restore
-build:
-  verbosity: minimal
-after_build:
-- cmd: nuget pack Cake.FileHelpers.nuspec -Version %APPVEYOR_BUILD_VERSION% -BasePath .\
+build_script:
+- cmd: powershell build.ps1 -Target package
+test_script:
+- cmd: powershell build.ps1 -Target test
 artifacts:
-- path: '*.nupkg'
+- path: output\*.nupkg
   name: NuGet

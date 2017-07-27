@@ -4,7 +4,7 @@ var sln = "./Cake.FileHelpers.sln";
 var nuspec = "./Cake.FileHelpers.nuspec";
 var version = Argument ("version", "1.0.0.0");
 var target = Argument ("target", "build");
-var configuration = Argument("configuration", "Release");
+var configuration = Argument("configuration", EnvironmentVariable ("CONFIGURATION") ?? "Release");
 
 Task ("build").Does (() =>
 {

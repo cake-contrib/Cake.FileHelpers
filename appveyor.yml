@@ -1,9 +1,9 @@
 version: 1.0.4.{build}
 configuration: Release
 build_script:
-- cmd: powershell build.ps1 -Target package
+- ps: .\build.ps1 -Target package
 test_script:
-- cmd: powershell build.ps1 -Target test
+- ps: .\build.ps1 -Target test
 artifacts:
 - path: output\*.nupkg
   name: NuGet

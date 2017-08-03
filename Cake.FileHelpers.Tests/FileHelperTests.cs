@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.Text.RegularExpressions;
 using Cake.Xamarin.Tests.Fakes;
 using Cake.Core.IO;
 
@@ -121,6 +122,47 @@ namespace Cake.FileHelpers.Tests
             }
         }
 
+        public const string GROUPS_FILE = "./testdata/Groups.txt";
+        public const string GROUPS_FILE_CONTENT = "Hello World! This is A quick Test to Capture multiple Groups.";
+        public const string GROUPS_PATTERN = "([A-Z])(\\w+)";
+
+        [Test]
+        public void FindRegexMatchesGroupsInFile ()
+        {
+            context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
+
+            var matchesGroups = context.CakeContext.FindRegexMatchesGroupsInFile (GROUPS_FILE, GROUPS_PATTERN, RegexOptions.None);
+
+            Assert.IsNotNull (matchesGroups);
+            Assert.AreEqual (matchesGroups.Count, 6);
+
+            foreach (var g in matchesGroups)
+                Assert.AreEqual (g.Count, 3);
+        }
+
+        [Test]
+        public void FindRegexMatchGroupsInFile()
+        {
+            context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
+
+            var matchGroups = context.CakeContext.FindRegexMatchGroupsInFile (GROUPS_FILE, GROUPS_PATTERN, RegexOptions.None);
+
+            Assert.IsNotNull (matchGroups);
+            Assert.AreEqual (matchGroups.Count, 3);
+        }
+
+        [Test]
+        public void FindRegexMatchGroupInFile ()
+        {
+            context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
+
+            var matchGroup = context.CakeContext.FindRegexMatchGroupInFile (GROUPS_FILE, GROUPS_PATTERN, 2, RegexOptions.None);
+            var invalidMatchGroup = context.CakeContext.FindRegexMatchGroupInFile (GROUPS_FILE, GROUPS_PATTERN, 8, RegexOptions.None);
+
+            Assert.IsNotNull (matchGroup);
+            Assert.IsNull (invalidMatchGroup);
+            Assert.AreEqual (matchGroup.Value, "ello");
+        }
 
         public const string PATTERN_FILE_BASE_VALUE = "The {0} makes great software.\nThis is not a surprise.";
 

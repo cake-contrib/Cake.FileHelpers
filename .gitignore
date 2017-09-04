@@ -9,6 +9,9 @@ nupkg/
 .nugetapikey
 xtc-api-key
 xtc-email
+.vs
+.vscode
+.idea
 
 #Cake
 [Tt]ools/

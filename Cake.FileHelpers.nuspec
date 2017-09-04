@@ -17,7 +17,7 @@
       <tags>Cake Script Build</tags>
    </metadata>
    <files>
-      <file src="Cake.FileHelpers/bin/Release/Cake.FileHelpers.dll" target="lib/net45" />
-      <file src="Cake.FileHelpers/bin/Release/Cake.FileHelpers.xml" target="lib/net45" />
+      <file src="Cake.FileHelpers/bin/Release/net45/Cake.FileHelpers.dll" target="lib/net45" />
+      <file src="Cake.FileHelpers/bin/Release/net45/Cake.FileHelpers.xml" target="lib/net45" />
    </files>
 </package>

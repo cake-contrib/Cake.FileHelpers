@@ -1,17 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
-    <ConsolePause>false</ConsolePause>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Cake.Common" Version="0.17.0" />
-    <PackageReference Include="Cake.Core" Version="0.17.0" />
-    <PackageReference Include="Cake.Testing" Version="0.17.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="nunit" Version="3.8.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Cake.FileHelpers\Cake.FileHelpers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Cake.Testing" Version="0.22.0-alpha0110" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="Cake.Core" Version="0.22.0-alpha0110" />
   </ItemGroup>
 </Project>

@@ -8,16 +8,16 @@
       <title>Cake.FileHelpers</title>
       <description>Cake Build addon to provide Aliases for common File operations (Reading, Writing, Replacing Text).</description>
       <summary>Cake build aliases for Reading, Writing, and Replacing Text in files.</summary>
-      <licenseUrl>https://raw.githubusercontent.com/Redth/Cake.FileHelpers/master/LICENSE.md</licenseUrl>
-      <projectUrl>https://github.com/Redth/Cake.FileHelpers</projectUrl>
-      <iconUrl>https://raw.githubusercontent.com/Redth/Cake.FileHelpers/master/icon.png</iconUrl>
+      <licenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/LICENSE.md</licenseUrl>
+      <projectUrl>https://github.com/cake-contrib/Cake.FileHelpers</projectUrl>
+      <iconUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/icon.png</iconUrl>
       <requireLicenseAcceptance>false</requireLicenseAcceptance>
-      <copyright>Copyright (c) Redth 2015-2016</copyright>
+      <copyright>Copyright (c) Redth 2015-2017</copyright>
       <releaseNotes>Initial Release</releaseNotes>
       <tags>Cake Script Build</tags>
    </metadata>
    <files>
-      <file src="Cake.FileHelpers/bin/Release/net45/Cake.FileHelpers.dll" target="lib/net45" />
-      <file src="Cake.FileHelpers/bin/Release/net45/Cake.FileHelpers.xml" target="lib/net45" />
+      <file src="Cake.FileHelpers/bin/Release/netstandard1.6/Cake.FileHelpers.dll" target="lib/netstandard1.6" />
+      <file src="Cake.FileHelpers/bin/Release/netstandard1.6/Cake.FileHelpers.xml" target="lib/netstandard1.6" />
    </files>
 </package>

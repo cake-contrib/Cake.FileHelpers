@@ -1,11 +1,28 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>   
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <ConsolePause>false</ConsolePause>
-    <Authors>redth</Authors>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <Authors>Redth</Authors>
+    <PackageIconUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/LICENSE.md</PackageLicenseUrl>
+    <Owners>Redth</Owners>
+    <PackageProjectUrl>https://github.com/cake-contrib/Cake.FileHelpers</PackageProjectUrl>
+    <Summary>Cake build aliases for Reading, Writing, and Replacing Text in files.</Summary>
+    <PackageTags>Cake Script Build</PackageTags>
+    <Title>Cake.FIleHelpers</Title>
+    <Description>Cake Build addon to provide Aliases for common File operations (Reading, Writing, Replacing Text).</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile>bin\Debug\netstandard1.6\Cake.FileHelpers.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <DocumentationFile>bin\Release\netstandard1.6\Cake.FileHelpers.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.17.0" />
+    <PackageReference Include="Cake.Core" Version="0.22.0-alpha0110" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.1.276" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ var configuration = Argument("configuration", EnvironmentVariable ("CONFIGURATIO
 Task ("build").Does (() =>
 {
 	NuGetRestore (sln);
-	DotNetBuild (sln, c => c.Configuration = configuration);
+	MSBuild (sln, c => c.Configuration = configuration);
 });
 
 Task ("package").IsDependentOn("build").Does (() =>
@@ -30,7 +30,7 @@ Task ("clean").Does (() =>
 
 Task("test").IsDependentOn("package").Does(() =>
 {
-	NUnit3("./**/bin/"+ configuration + "/*.Tests.dll");
+	NUnit3("./**/bin/"+ configuration + "/**/*.Tests.dll");
 });
 
 Task ("Default")

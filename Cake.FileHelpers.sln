@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.FileHelpers", "Cake.FileHelpers\Cake.FileHelpers.csproj", "{AC943876-048E-4309-BD6B-3DCFD4D1FD80}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.FileHelpers.Tests", "Cake.FileHelpers.Tests\Cake.FileHelpers.Tests.csproj", "{7D98AE06-9FCB-4C34-8EA9-AA4446E8DD77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.FileHelpers", "Cake.FileHelpers\Cake.FileHelpers.csproj", "{A5CF4E50-0BF9-4FD6-8C2A-46E481B39C9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,13 +11,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AC943876-048E-4309-BD6B-3DCFD4D1FD80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC943876-048E-4309-BD6B-3DCFD4D1FD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC943876-048E-4309-BD6B-3DCFD4D1FD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC943876-048E-4309-BD6B-3DCFD4D1FD80}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7D98AE06-9FCB-4C34-8EA9-AA4446E8DD77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D98AE06-9FCB-4C34-8EA9-AA4446E8DD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D98AE06-9FCB-4C34-8EA9-AA4446E8DD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D98AE06-9FCB-4C34-8EA9-AA4446E8DD77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5CF4E50-0BF9-4FD6-8C2A-46E481B39C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5CF4E50-0BF9-4FD6-8C2A-46E481B39C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5CF4E50-0BF9-4FD6-8C2A-46E481B39C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5CF4E50-0BF9-4FD6-8C2A-46E481B39C9F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

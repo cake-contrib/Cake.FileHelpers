@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cake.FileHelpers\Cake.FileHelpers.csproj" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="Cake.Core" Version="0.22.0" />
+    <PackageReference Include="Cake.Testing" Version="0.22.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Cake.Testing" Version="0.22.0-alpha0110" />
-    <PackageReference Include="NUnit" Version="3.8.1" />
-    <PackageReference Include="Cake.Core" Version="0.22.0-alpha0110" />
+    <ProjectReference Include="..\Cake.FileHelpers\Cake.FileHelpers.csproj" />
   </ItemGroup>
 </Project>

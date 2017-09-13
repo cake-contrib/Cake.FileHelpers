@@ -2,7 +2,7 @@
 
 var sln = "./Cake.FileHelpers.sln";
 var nuspec = "./Cake.FileHelpers.nuspec";
-var nugetVersion = Argument ("nuget_version", EnvironmentVariable ("NUGET_VERSION") ?? "1.0.0.0");
+var nugetVersion = Argument ("nuget_version", EnvironmentVariable ("NUGET_VERSION") ?? "9.9.9");
 var target = Argument ("target", "build");
 var configuration = Argument("configuration", EnvironmentVariable ("CONFIGURATION") ?? "Release");
 

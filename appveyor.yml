@@ -8,5 +8,5 @@ build_script:
 test_script:
 - ps: .\build.ps1 -Target test
 artifacts:
-- path: output\*.nupkg
+- path: Cake.FileHelpers\bin\Release\*.nupkg
   name: NuGet

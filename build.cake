@@ -8,17 +8,17 @@ var configuration = Argument("configuration", EnvironmentVariable ("CONFIGURATIO
 
 Task ("build").Does (() =>
 {
-	NuGetRestore (sln);
-	MSBuild (sln, c => c.Configuration = configuration);
+	MSBuild ("./Cake.FileHelpers.sln", c => c.Targets.Add ("restore"));
+	MSBuild ("./Cake.FileHelpers.sln", c => c.Configuration = configuration);
 });
 
 Task ("package").IsDependentOn("build").Does (() =>
 {
-	EnsureDirectoryExists ("./output/");
-
-	NuGetPack (nuspec, new NuGetPackSettings {
-		OutputDirectory = "./output/",
-		Version = nugetVersion,
+	MSBuild ("./Cake.FileHelpers/Cake.FileHelpers.csproj", c => {
+		c.Configuration = configuration;
+		c.Targets.Add ("pack");
+		c.Properties.Add ("PackageVersion", new List<string> { nugetVersion });
+		c.Properties.Add ("IncludeSymbols", new List<string> { "true" });
 	});
 });
 
@@ -30,6 +30,7 @@ Task ("clean").Does (() =>
 
 Task("test").IsDependentOn("package").Does(() =>
 {
+	MSBuild ("./Cake.FileHelpers.Tests/Cake.FileHelpers.Tests.csproj", c => c.Configuration = configuration);
 	NUnit3("./**/bin/"+ configuration + "/**/*.Tests.dll");
 });
 

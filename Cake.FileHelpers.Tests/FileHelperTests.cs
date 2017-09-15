@@ -11,12 +11,11 @@ namespace Cake.FileHelpers.Tests
     {
         FakeCakeContext context;
 
-		//[OneTimeSetUp]
-		//public void RunBeforeAnyTests()
-		//{
-		//	var cd = AppContext.BaseDirectory;
-		//	//Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(typeof(FileHelperTests).Assembly.Location);
-		//}
+        [OneTimeSetUp]
+        public void RunBeforeAnyTests()
+        {
+            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(typeof(FileHelperTests).Assembly.Location);
+        }
 
         [SetUp]
         public void Setup ()

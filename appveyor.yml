@@ -5,8 +5,10 @@ install:
 - set NUGET_VERSION=%APPVEYOR_BUILD_VERSION%
 build_script:
 - ps: .\build.ps1 -Target package
-test_script:
-- ps: .\build.ps1 -Target test
+test:
+  assemblies:
+    only:
+      - 'Cake.FileHelpers\bin\Release\*.Tests.dll'
 artifacts:
 - path: Cake.FileHelpers\bin\Release\*.nupkg
   name: NuGet

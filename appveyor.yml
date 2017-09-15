@@ -7,8 +7,7 @@ build_script:
 - ps: .\build.ps1 -Target package
 test:
   assemblies:
-    only:
-      - 'Cake.FileHelpers\bin\Release\*.Tests.dll'
+    - '**\*.Tests.dll'
 artifacts:
 - path: Cake.FileHelpers\bin\Release\*.nupkg
   name: NuGet

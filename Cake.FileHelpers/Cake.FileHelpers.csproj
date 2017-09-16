@@ -1,11 +1,31 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>   
+    <TargetFrameworks>netstandard1.6;net46</TargetFrameworks>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <ConsolePause>false</ConsolePause>
-    <Authors>redth</Authors>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.17.0" />
+
+  <PropertyGroup>
+    <PackageId>Cake.FileHelpers</PackageId>
+    <Title>Cake.FileHelpers</Title>
+    <Summary>Cake build aliases for Reading, Writing, and Replacing Text in files.</Summary>
+    <Description>Cake Build addon to provide Aliases for common File operations (Reading, Writing, Replacing Text).</Description>
+    <PackageTags>Cake Script Build</PackageTags>
+    <Authors>Redth</Authors>
+    <Owners>Redth</Owners>
+    <PackageProjectUrl>https://github.com/cake-contrib/Cake.FileHelpers</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/LICENSE.md</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cake.Core" Version="0.22.0" />
+    <PackageReference Include="Cake.Common" Version="0.22.0" />
+  </ItemGroup>
+ 
 </Project>

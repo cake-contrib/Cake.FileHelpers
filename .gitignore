@@ -12,6 +12,7 @@ xtc-email
 .vs
 .vscode
 .idea
+*.user
 
 #Cake
 [Tt]ools/

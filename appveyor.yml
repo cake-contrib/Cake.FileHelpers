@@ -1,13 +1,26 @@
-image: Visual Studio 2017
-version: 2.0.{build}
-configuration: Release
-install:
-- set NUGET_VERSION=%APPVEYOR_BUILD_VERSION%
+#---------------------------------#
+#  Build Script                   #
+#---------------------------------#
 build_script:
-- ps: .\build.ps1 -Target package
-test:
-  assemblies:
-    - '**\*.Tests.dll'
-artifacts:
-- path: Cake.FileHelpers\bin\Release\*.nupkg
-  name: NuGet
+  - ps: .\build.ps1 -Target AppVeyor
+
+# Tests
+test: off
+
+#---------------------------------#
+#        Branches to build        #
+#---------------------------------#
+branches:
+  # Whitelist
+  only:
+    - develop
+    - master
+    - /release/.*/
+    - /hotfix/.*/
+
+#---------------------------------#
+#  Build Cache                    #
+#---------------------------------#
+#cache:
+#- packages -> Source\**\packages.config
+#- tools -> setup.cake

@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard1.6</TargetFrameworks>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +9,7 @@
     <PackageReference Include="Cake.Testing" Version="0.22.0" />
     <PackageReference Include="xunit" Version="2.3.0-beta5-build3769" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-beta5-build3769" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
   </ItemGroup>
 
   <ItemGroup>

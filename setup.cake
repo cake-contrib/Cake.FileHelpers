@@ -9,6 +9,7 @@ BuildParameters.SetParameters(context: Context,
                             repositoryOwner: "cake-contrib",
                             repositoryName: "Cake.FileHelpers",
                             appVeyorAccountName: "cakecontrib",
+                            shouldRunDotNetCorePack: true,
                             shouldRunDupFinder: false,
                             shouldRunInspectCode: false);
 

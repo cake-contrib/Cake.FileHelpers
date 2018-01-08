@@ -1,43 +1,34 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using Cake.Xamarin.Tests.Fakes;
 using Cake.Core.IO;
+using Xunit;
 
 namespace Cake.FileHelpers.Tests
 {
-    [TestFixture]
-    public class FileHelperTests
+    public class FileHelperTests : IDisposable
     {
         FakeCakeContext context;
 
-        [OneTimeSetUp]
-        public void RunBeforeAnyTests()
+        public FileHelperTests()
         {
-            Environment.CurrentDirectory = System.IO.Path.GetDirectoryName(typeof(FileHelperTests).Assembly.Location);
-        }
+            context = new FakeCakeContext();
 
-        [SetUp]
-        public void Setup ()
-        {
-            context = new FakeCakeContext ();
-
-            var dp = new DirectoryPath ("./testdata");
-            var d = context.CakeContext.FileSystem.GetDirectory (dp);
-
+            var dp = new DirectoryPath("./testdata");
+            var d = context.CakeContext.FileSystem.GetDirectory(dp);
+         
             if (d.Exists)
-                d.Delete (true);
+                d.Delete(true);
 
-            d.Create ();
+            d.Create();
         }
-
-        [TearDown]
-        public void Teardown ()
+        
+        public void Dispose ()
         {
             context.DumpLogs ();
         }
 
-        [Test]
+        [Fact]
         public void TestWriteAndReadText ()
         {         
             const string file = "./testdata/Text.txt";
@@ -47,10 +38,10 @@ namespace Cake.FileHelpers.Tests
 
             var read = context.CakeContext.FileReadText (file);
 
-            Assert.AreEqual (contents, read);
+            Assert.Equal (contents, read);
         }
 
-        [Test]
+        [Fact]
         public void TestWriteAndReadLines ()
         {   
             const string file = "./testdata/Lines.txt";
@@ -60,65 +51,65 @@ namespace Cake.FileHelpers.Tests
 
             var read = context.CakeContext.FileReadLines (file);
 
-            Assert.IsNotNull (read);
-            Assert.AreEqual (contents.Length, read.Length);
+            Assert.NotNull (read);
+            Assert.Equal (contents.Length, read.Length);
 
             for (int i = 0; i < read.Length; i++)
-                Assert.AreEqual (contents[i], read[i]);
+                Assert.Equal (contents[i], read[i]);
         }
 
-        [Test]
+        [Fact]
         public void FindTextInFiles ()
         {
             SetupFiles ();
 
             var files = context.CakeContext.FindTextInFiles ("./testdata/*.txt", "Monkey");
 
-            Assert.IsNotNull (files);
-            Assert.AreEqual (1, files.Length);
+            Assert.NotNull (files);
+            Assert.Single(files);
         }
 
-        [Test]
+        [Fact]
         public void FindRegexInFiles ()
         {
             SetupFiles ();
 
             var files = context.CakeContext.FindRegexInFiles ("./testdata/*.txt", @"\s{1}Monkey\s{1,}");
 
-            Assert.IsNotNull (files);
-            Assert.AreEqual (1, files.Length);
+            Assert.NotNull (files);
+            Assert.Single(files);
         }
 
 
-        [Test]
+        [Fact]
         public void ReplaceTextInFiles ()
         {
             SetupFiles ();
 
             var files = context.CakeContext.ReplaceTextInFiles ("./testdata/*.txt", "Monkey", "Tamarin");
 
-            Assert.IsNotNull (files);
-            Assert.AreEqual (1, files.Length);
+            Assert.NotNull (files);
+            Assert.Single (files);
 
             foreach (var f in files) {
                 var contents = context.CakeContext.FileReadText (f);
-                Assert.AreEqual (string.Format (PATTERN_FILE_BASE_VALUE, "Tamarin"), contents);
+                Assert.Equal (string.Format (PATTERN_FILE_BASE_VALUE, "Tamarin"), contents);
             }
         }
 
-        [Test]
+        [Fact]
         public void ReplaceRegexInFiles ()
         {
             SetupFiles ();
 
             var files = context.CakeContext.ReplaceRegexInFiles ("./testdata/*.txt", @"\s{1}Monkey\s{1,}", " Tamarin ");
 
-            Assert.IsNotNull (files);
-            Assert.AreEqual (1, files.Length);
+            Assert.NotNull (files);
+            Assert.Single(files);
 
             foreach (var f in files) {
                 var contents = context.CakeContext.FileReadText (f);
-                Assert.AreEqual (string.Format (PATTERN_FILE_BASE_VALUE, "Tamarin"), contents);
+                Assert.Equal (string.Format (PATTERN_FILE_BASE_VALUE, "Tamarin"), contents);
             }
         }
 
@@ -126,32 +117,32 @@ namespace Cake.FileHelpers.Tests
         public const string GROUPS_FILE_CONTENT = "Hello World! This is A quick Test to Capture multiple Groups.";
         public const string GROUPS_PATTERN = "([A-Z])(\\w+)";
 
-        [Test]
+        [Fact]
         public void FindRegexMatchesGroupsInFile ()
         {
             context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
 
             var matchesGroups = context.CakeContext.FindRegexMatchesGroupsInFile (GROUPS_FILE, GROUPS_PATTERN, RegexOptions.None);
 
-            Assert.IsNotNull (matchesGroups);
-            Assert.AreEqual (matchesGroups.Count, 6);
+            Assert.NotNull (matchesGroups);
+            Assert.Equal (6, matchesGroups.Count);
 
             foreach (var g in matchesGroups)
-                Assert.AreEqual (g.Count, 3);
+                Assert.Equal (3, g.Count);
         }
 
-        [Test]
+        [Fact]
         public void FindRegexMatchGroupsInFile()
         {
             context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
 
             var matchGroups = context.CakeContext.FindRegexMatchGroupsInFile (GROUPS_FILE, GROUPS_PATTERN, RegexOptions.None);
 
-            Assert.IsNotNull (matchGroups);
-            Assert.AreEqual (matchGroups.Count, 3);
+            Assert.NotNull (matchGroups);
+            Assert.Equal (3, matchGroups.Count);
         }
 
-        [Test]
+        [Fact]
         public void FindRegexMatchGroupInFile ()
         {
             context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
@@ -159,9 +150,9 @@ namespace Cake.FileHelpers.Tests
             var matchGroup = context.CakeContext.FindRegexMatchGroupInFile (GROUPS_FILE, GROUPS_PATTERN, 2, RegexOptions.None);
             var invalidMatchGroup = context.CakeContext.FindRegexMatchGroupInFile (GROUPS_FILE, GROUPS_PATTERN, 8, RegexOptions.None);
 
-            Assert.IsNotNull (matchGroup);
-            Assert.IsNull (invalidMatchGroup);
-            Assert.AreEqual (matchGroup.Value, "ello");
+            Assert.NotNull (matchGroup);
+            Assert.Null (invalidMatchGroup);
+            Assert.Equal ("ello", matchGroup.Value);
         }
 
         public const string PATTERN_FILE_BASE_VALUE = "The {0} makes great software.\nThis is not a surprise.";

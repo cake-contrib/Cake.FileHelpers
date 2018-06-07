@@ -9,6 +9,7 @@ nupkg/
 .nugetapikey
 xtc-api-key
 xtc-email
+.dotnet
 .vs
 .vscode
 .idea

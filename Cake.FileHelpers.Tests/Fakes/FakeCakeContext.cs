@@ -27,11 +27,12 @@ namespace Cake.Xamarin.Tests.Fakes
             var args = new FakeCakeArguments ();
             var processRunner = new ProcessRunner (environment, log);
             var registry = new WindowsRegistry ();
-
+            
+            var dataService = new FakeDataService(); 
             var toolRepository = new ToolRepository(environment);
             var toolResolutionStrategy = new ToolResolutionStrategy(fileSystem, environment, globber, new FakeConfiguration());
             IToolLocator tools = new ToolLocator(environment, toolRepository, toolResolutionStrategy);
-            context = new CakeContext (fileSystem, environment, globber, log, args, processRunner, registry, tools);
+            context = new CakeContext (fileSystem, environment, globber, log, args, processRunner, registry, tools, dataService);
             context.Environment.WorkingDirectory = testsDir;
         }
 

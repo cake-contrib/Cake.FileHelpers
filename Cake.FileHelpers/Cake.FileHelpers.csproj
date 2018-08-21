@@ -1,11 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageId>Cake.FileHelpers</PackageId>
     <Title>Cake.FileHelpers</Title>
@@ -18,14 +16,11 @@
     <PackageIconUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/icon.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/LICENSE.md</PackageLicenseUrl>
   </PropertyGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.26.1" />
-    <PackageReference Include="Cake.Common" Version="0.26.1" />
+    <PackageReference Include="Cake.Core" Version="0.29.0" />
+    <PackageReference Include="Cake.Common" Version="0.29.0" />
   </ItemGroup>
- 
 </Project>

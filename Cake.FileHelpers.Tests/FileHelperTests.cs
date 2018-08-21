@@ -59,7 +59,7 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void FindTextInFiles ()
+        public void FindTextInFilesGlob ()
         {
             SetupFiles ();
 
@@ -70,6 +70,19 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
+        public void FindTextInFiles ()
+        {
+            SetupFiles();
+
+            var files = context.CakeContext.Globber.GetFiles ("./testdata/*.txt");
+
+            var monkeyFiles = context.CakeContext.FindTextInFiles (files, "Monkey");
+
+            Assert.NotNull (monkeyFiles);
+            Assert.Single (monkeyFiles);
+        }
+
+        [Fact]
         public void FindRegexInFiles ()
         {
             SetupFiles ();
@@ -77,7 +90,7 @@ namespace Cake.FileHelpers.Tests
             var files = context.CakeContext.FindRegexInFiles ("./testdata/*.txt", @"\s{1}Monkey\s{1,}");
 
             Assert.NotNull (files);
-            Assert.Single(files);
+            Assert.Single (files);
         }
 
 

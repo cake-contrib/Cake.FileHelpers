@@ -229,22 +229,34 @@ namespace Cake.FileHelpers
         /// </summary>
         /// <returns>The files which match the regular expression and globber pattern.</returns>
         /// <param name="context">The context.</param>
-        /// <param name="globberPattern">The globber pattern to match files to replace text in.</param>
-        /// <param name="findPattern">The regular expression to find.</param>
+        /// <param name="globberPattern">The globber pattern to match files to find text in.</param>
+        /// <param name="substring">The substring to find.</param>
         [CakeMethodAlias]
-        public static FilePath[] FindTextInFiles (this ICakeContext context, string globberPattern, string findPattern)
+        public static FilePath[] FindTextInFiles (this ICakeContext context, string globberPattern, string substring)
         {
             var files = context.Globber.GetFiles (globberPattern);
+            return FindTextInFiles(context, files, substring);
+        }
 
-            var results = new ConcurrentBag<FilePath> ();
+        /// <summary>
+        /// Finds files with the given text in files matching the given collection of files.
+        /// </summary>
+        /// <returns>The files which match the regular expession in the files.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="files">The files to find text in.</param>
+        /// <param name="substring">The substring to find.</param>
+        [CakeMethodAlias]
+        public static FilePath[] FindTextInFiles(this ICakeContext context, IEnumerable<FilePath> files, string substring)
+        {
+            var results = new ConcurrentBag<FilePath>();
 
-            Parallel.ForEach (files, f => {
-                var contents = FileReadText (context, f);
-                if (contents.Contains (findPattern))
-                    results.Add (f);
+            Parallel.ForEach(files, f => {
+                var contents = FileReadText(context, f);
+                if (contents.Contains(substring))
+                    results.Add(f);
             });
 
-            return results.ToArray ();
+            return results.ToArray();
         }
 
         /// <summary>

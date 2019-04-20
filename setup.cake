@@ -13,7 +13,8 @@ BuildParameters.SetParameters(context: Context,
                             shouldRunDupFinder: false,
                             shouldRunInspectCode: false,
                             shouldRunCodecov: false,
-                            shouldPostToSlack: false
+                            shouldPostToSlack: false,
+                            shouldRunGitVersion: true
                              );
 
 BuildParameters.PrintParameters(Context);

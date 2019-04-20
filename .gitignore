@@ -15,5 +15,6 @@ xtc-email
 *.user
 
 #Cake
-[Tt]ools/
+tools/**
+!tools/packages.config
 BuildArtifacts/

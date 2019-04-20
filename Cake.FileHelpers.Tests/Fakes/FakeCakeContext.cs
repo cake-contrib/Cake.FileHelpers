@@ -16,7 +16,7 @@ namespace Cake.Xamarin.Tests.Fakes
         {
             testsDir = new DirectoryPath (
                 System.IO.Path.GetFullPath (AppContext.BaseDirectory));
-			
+
             var fileSystem = new FileSystem ();
             log = new FakeLog();
             var runtime = new CakeRuntime();
@@ -25,14 +25,15 @@ namespace Cake.Xamarin.Tests.Fakes
             var globber = new Globber (fileSystem, environment);
             
             var args = new FakeCakeArguments ();
-            var processRunner = new ProcessRunner (environment, log);
             var registry = new WindowsRegistry ();
             
             var dataService = new FakeDataService(); 
             var toolRepository = new ToolRepository(environment);
-            var toolResolutionStrategy = new ToolResolutionStrategy(fileSystem, environment, globber, new FakeConfiguration());
+            var config = new FakeConfiguration();
+            var toolResolutionStrategy = new ToolResolutionStrategy(fileSystem, environment, globber, config);
             IToolLocator tools = new ToolLocator(environment, toolRepository, toolResolutionStrategy);
-            context = new CakeContext (fileSystem, environment, globber, log, args, processRunner, registry, tools, dataService);
+            var processRunner = new ProcessRunner(fileSystem, environment, log, tools, config);
+            context = new CakeContext (fileSystem, environment, globber, log, args, processRunner, registry, tools, dataService, config);
             context.Environment.WorkingDirectory = testsDir;
         }
 

@@ -2,7 +2,7 @@
 #  Build Script                   #
 #---------------------------------#
 build_script:
-  - ps: .\build.ps1 -Script setup.cake -Target AppVeyor -Verbosity Diagnostic --settings_skipverification=true
+  - ps: .\build.ps1 -Target AppVeyor -Verbosity Diagnostic
 
 # Tests
 test: off
@@ -23,4 +23,4 @@ branches:
 #---------------------------------#
 #cache:
 #- packages -> Source\**\packages.config
-#- tools -> setup.cake
+#- tools -> recipe.cake

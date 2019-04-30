@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.6' ">1.6.1</NetStandardImplicitPackageVersion>
@@ -13,7 +13,7 @@
     <Authors>Redth</Authors>
     <Owners>Redth</Owners>
     <PackageProjectUrl>https://github.com/cake-contrib/Cake.FileHelpers</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/icon.png</PackageIconUrl>
+    <PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.FileHelpers/master/LICENSE.md</PackageLicenseUrl>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">

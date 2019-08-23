@@ -12,6 +12,7 @@
     <PackageTags>Cake Script Build</PackageTags>
     <Authors>Redth</Authors>
     <Owners>Redth; cake-contrib</Owners>
+    <Copyright>Copyright 2017-$([System.DateTime]::Now.Year) - Cake Contributions</Copyright>
     <PackageProjectUrl>https://github.com/cake-contrib/Cake.FileHelpers</PackageProjectUrl>
     <PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>

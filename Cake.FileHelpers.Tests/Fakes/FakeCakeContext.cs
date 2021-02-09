@@ -21,7 +21,7 @@ namespace Cake.Xamarin.Tests.Fakes
             log = new FakeLog();
             var runtime = new CakeRuntime();
             var platform = new FakePlatform(PlatformFamily.Windows);
-            var environment = new CakeEnvironment (platform, runtime, log);
+            var environment = new CakeEnvironment(platform, runtime);
             var globber = new Globber (fileSystem, environment);
             
             var args = new FakeCakeArguments ();
@@ -30,7 +30,7 @@ namespace Cake.Xamarin.Tests.Fakes
             var dataService = new FakeDataService(); 
             var toolRepository = new ToolRepository(environment);
             var config = new FakeConfiguration();
-            var toolResolutionStrategy = new ToolResolutionStrategy(fileSystem, environment, globber, config);
+            var toolResolutionStrategy = new ToolResolutionStrategy(fileSystem, environment, globber, config, log);
             IToolLocator tools = new ToolLocator(environment, toolRepository, toolResolutionStrategy);
             var processRunner = new ProcessRunner(fileSystem, environment, log, tools, config);
             context = new CakeContext (fileSystem, environment, globber, log, args, processRunner, registry, tools, dataService, config);

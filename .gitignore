@@ -16,5 +16,4 @@ xtc-email
 
 #Cake
 tools/**
-!tools/packages.config
 BuildArtifacts/

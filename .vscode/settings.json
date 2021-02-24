@@ -1,0 +1,8 @@
+{
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableRoslynAnalyzers": true,
+  "[powershell]": {
+    "files.encoding": "utf8bom"
+  },
+  "powershell.codeFormatting.addWhitespaceAroundPipe": true
+}

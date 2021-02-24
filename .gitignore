@@ -10,7 +10,6 @@ nupkg/
 xtc-api-key
 xtc-email
 .vs
-.vscode
 .idea
 *.user
 

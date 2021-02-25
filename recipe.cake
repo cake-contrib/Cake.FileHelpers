@@ -4,7 +4,7 @@ Environment.SetVariableNames();
 
 BuildParameters.SetParameters(context: Context,
                             buildSystem: BuildSystem,
-                            sourceDirectoryPath: Context.Environment.WorkingDirectory,
+                            sourceDirectoryPath: "./src",
                             title: "Cake.FileHelpers",
                             repositoryOwner: "cake-contrib",
                             repositoryName: "Cake.FileHelpers",

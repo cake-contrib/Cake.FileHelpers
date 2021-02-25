@@ -10,11 +10,9 @@ nupkg/
 xtc-api-key
 xtc-email
 .vs
-.vscode
 .idea
 *.user
 
 #Cake
 tools/**
-!tools/packages.config
 BuildArtifacts/

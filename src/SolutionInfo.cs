@@ -4,10 +4,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System.Reflection;
+using System;
 
+[assembly: AssemblyTitle("Cake.FileHelpers")]
+[assembly: AssemblyDescription("Cake File Helpers AddIn")]
 [assembly: AssemblyCompany("Cake Contributions")]
 [assembly: AssemblyProduct("Cake.FileHelpers")]
-[assembly: AssemblyVersion("0.0.0")]
-[assembly: AssemblyFileVersion("0.0.0")]
-[assembly: AssemblyInformationalVersion("0.0.0")]
-[assembly: AssemblyCopyright("Copyright © Cake Contributions 2017 - Present")]
+[assembly: AssemblyVersion("0.1.0")]
+[assembly: AssemblyFileVersion("0.1.0")]
+[assembly: AssemblyInformationalVersion("0.1.0")]
+[assembly: AssemblyCopyright("Copyright © Cake Contributions 2016 - Present")]
+[assembly: CLSCompliant(true)]

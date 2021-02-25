@@ -22,15 +22,15 @@ namespace Cake.FileHelpers.Tests
 
             d.Create();
         }
-        
-        public void Dispose ()
+
+        public void Dispose()
         {
-            context.DumpLogs ();
+            context.DumpLogs();
         }
 
         [Fact]
-        public void TestWriteAndReadText ()
-        {         
+        public void TestWriteAndReadText()
+        {
             const string file = "./testdata/Text.txt";
             const string contents = "This is a test";
 
@@ -42,8 +42,8 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void TestWriteAndReadLines ()
-        {   
+        public void TestWriteAndReadLines()
+        {
             const string file = "./testdata/Lines.txt";
             var contents = new [] { "This", "is", "a", "test" };
 
@@ -59,9 +59,9 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void FindTextInFilesGlob ()
+        public void FindTextInFilesGlob()
         {
-            SetupFiles ();
+            SetupFiles();
 
             var files = context.CakeContext.FindTextInFiles ("./testdata/*.txt", "Monkey");
 
@@ -70,7 +70,7 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void FindTextInFiles ()
+        public void FindTextInFiles()
         {
             SetupFiles();
 
@@ -83,9 +83,9 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void FindRegexInFiles ()
+        public void FindRegexInFiles()
         {
-            SetupFiles ();
+            SetupFiles();
 
             var files = context.CakeContext.FindRegexInFiles ("./testdata/*.txt", @"\s{1}Monkey\s{1,}");
 
@@ -95,9 +95,9 @@ namespace Cake.FileHelpers.Tests
 
 
         [Fact]
-        public void ReplaceTextInFiles ()
+        public void ReplaceTextInFiles()
         {
-            SetupFiles ();
+            SetupFiles();
 
             var files = context.CakeContext.ReplaceTextInFiles ("./testdata/*.txt", "Monkey", "Tamarin");
 
@@ -111,9 +111,9 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void ReplaceRegexInFiles ()
+        public void ReplaceRegexInFiles()
         {
-            SetupFiles ();
+            SetupFiles();
 
             var files = context.CakeContext.ReplaceRegexInFiles ("./testdata/*.txt", @"\s{1}Monkey\s{1,}", " Tamarin ");
 
@@ -131,7 +131,7 @@ namespace Cake.FileHelpers.Tests
         public const string GROUPS_PATTERN = "([A-Z])(\\w+)";
 
         [Fact]
-        public void FindRegexMatchesGroupsInFile ()
+        public void FindRegexMatchesGroupsInFile()
         {
             context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
 
@@ -156,7 +156,7 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
-        public void FindRegexMatchGroupInFile ()
+        public void FindRegexMatchGroupInFile()
         {
             context.CakeContext.FileWriteText (GROUPS_FILE, GROUPS_FILE_CONTENT);
 
@@ -170,13 +170,13 @@ namespace Cake.FileHelpers.Tests
 
         public const string PATTERN_FILE_BASE_VALUE = "The {0} makes great software.\nThis is not a surprise.";
 
-        void SetupFiles ()
-        {            
+        void SetupFiles()
+        {
             // Setup files
             for (int i = 1; i < 5; i++) {
                 context.CakeContext.FileWriteText (
                     string.Format ("./testdata/{0}.txt", i),
-                    string.Format (PATTERN_FILE_BASE_VALUE, i == 2 ? "Monkey" : "Ape"));                
+                    string.Format (PATTERN_FILE_BASE_VALUE, i == 2 ? "Monkey" : "Ape"));
             }
         }
     }

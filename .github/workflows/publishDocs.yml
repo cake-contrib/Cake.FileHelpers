@@ -1,0 +1,36 @@
+name: Publish Documentation
+
+on:
+  workflow_dispatch:
+
+env:
+  WYAM_ACCESS_TOKEN: ${{ secrets.API_TOKEN }}
+  # secrets.GITHUB_TOKEN has no permissions to push, sadly.
+  WYAM_DEPLOY_BRANCH: 'gh-pages'
+  WYAM_DEPLOY_REMOTE: "${{ github.event.repository.html_url }}"
+
+jobs:
+  cake:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2.3.4 #https://github.com/actions/checkout
+      with:
+        fetch-depth: 0 # GitVersion is somewhat irritated when fetch-depth is "1"....
+        ref: ${{ github.event.ref }}
+
+    - name: Cache Tools
+      uses: actions/cache@v2
+      with:
+        path: tools
+        key: ${{ runner.os }}-doc-tools-${{ hashFiles('recipe.cake') }}
+
+    - name: Publishing documentation
+      uses: cake-build/cake-action@v1
+      with:
+        script-path: recipe.cake
+        target: Force-Publish-Documentation
+        verbosity: Diagnostic
+        cake-version: 0.38.5
+        cake-bootstrap: true

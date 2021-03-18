@@ -13,7 +13,7 @@
     <Title>Cake.FileHelpers</Title>
     <Summary>Cake build aliases for Reading, Writing, and Replacing Text in files.</Summary>
     <Description>Cake Build addon to provide Aliases for common File operations (Reading, Writing, Replacing Text).</Description>
-    <PackageTags>Cake Script Build</PackageTags>
+    <PackageTags>cake;script;build;cake-addin</PackageTags>
     <Authors>Redth</Authors>
     <Owners>Redth; cake-contrib</Owners>
     <Copyright>Copyright 2017-$([System.DateTime]::Now.Year) - Cake Contributions</Copyright>

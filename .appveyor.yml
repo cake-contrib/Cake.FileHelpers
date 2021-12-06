@@ -1,13 +1,13 @@
 #---------------------------------#
 #  Build Image                    #
 #---------------------------------#
-image: Visual Studio 2019
+image: Ubuntu
 
 #---------------------------------#
 #  Build Script                   #
 #---------------------------------#
 build_script:
-  - ps: .\build.ps1 --target=CI
+  - sh: ./build.sh --target=CI
 
 #---------------------------------#
 # Tests

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Cake.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cake.Core;
 
 namespace Cake.Xamarin.Tests.Fakes
 {
@@ -52,10 +52,24 @@ namespace Cake.Xamarin.Tests.Fakes
             return _arguments.ContainsKey(name);
         }
 
+        /// <summary>
+        /// Gets all values for an argument.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ICollection<string> GetArguments(string name)
         {
             _arguments.TryGetValue(name, out var arguments);
             return arguments ?? (ICollection<string>)Array.Empty<string>();
+        }
+
+        /// <summary>
+        ///  Gets all command line arguments.
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<string, ICollection<string>> GetArguments()
+        {
+            return _arguments as IDictionary<string, ICollection<string>>;
         }
 
         /// <summary>

@@ -72,14 +72,14 @@ jobs:
           cake-bootstrap: true
 
       - name: Upload Issues-Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           if-no-files-found: warn
           name: issues
           path: BuildArtifacts/report.html
 
       - name: Upload Packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           if-no-files-found: warn
           name: package

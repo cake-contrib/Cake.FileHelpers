@@ -55,6 +55,7 @@ jobs:
             3.1.415
             5.0.403
             6.0.100
+            7.0.100
 
       - name: Cache Tools
         uses: actions/cache@v3

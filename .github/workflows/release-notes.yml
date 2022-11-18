@@ -38,10 +38,9 @@ jobs:
           branch: "release/${{ steps.gitversion.outputs.majorMinorPatch }}"
           github_token: ${{ secrets.GH_TOKEN }}
       - name: Drafting Release Notes
-        uses: cake-build/cake-action@v1
+        uses: cake-build/cake-action@v1.4.1
         with:
           script-path: recipe.cake
           target: releasenotes
           verbosity: Diagnostic
-          cake-version: 0.38.5
-          cake-bootstrap: true
+          cake-version: tool-manifest

@@ -27,10 +27,9 @@ jobs:
         key: ${{ runner.os }}-doc-tools-${{ hashFiles('recipe.cake') }}
 
     - name: Publishing documentation
-      uses: cake-build/cake-action@v1
+      uses: cake-build/cake-action@v1.4.1
       with:
         script-path: recipe.cake
         target: Force-Publish-Documentation
         verbosity: Diagnostic
-        cake-version: 0.38.5
-        cake-bootstrap: true
+        cake-version: tool-manifest

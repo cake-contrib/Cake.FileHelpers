@@ -1,5 +1,4 @@
-#load nuget:?package=Cake.Recipe&version=2.2.1
-
+#load nuget:?package=Cake.Recipe&version=3.0.1
 Environment.SetVariableNames();
 
 BuildParameters.SetParameters(context: Context,
@@ -10,7 +9,6 @@ BuildParameters.SetParameters(context: Context,
                             repositoryName: "Cake.FileHelpers",
                             appVeyorAccountName: "cakecontrib",
                             shouldRunDotNetCorePack: true,
-                            shouldRunDupFinder: false,
                             shouldRunInspectCode: false,
                             shouldRunCodecov: false,
                             preferredBuildProviderType: BuildProviderType.GitHubActions);
@@ -18,8 +16,6 @@ BuildParameters.SetParameters(context: Context,
 BuildParameters.PrintParameters(Context);
 
 ToolSettings.SetToolSettings(context: Context,
-                            dupFinderExcludePattern: new string[] {
-                                BuildParameters.RootDirectoryPath + "/Cake.FileHelpers.Tests/*.cs" },
                             testCoverageFilter: "+[*]* -[xunit.*]* -[Cake.Core]* -[Cake.Testing]* -[*.Tests]* -[FakeItEasy]*",
                             testCoverageExcludeByAttribute: "*.ExcludeFromCodeCoverage*",
                             testCoverageExcludeByFile: "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs");

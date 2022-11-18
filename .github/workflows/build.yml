@@ -64,13 +64,12 @@ jobs:
           key: ${{ runner.os }}-tools-${{ hashFiles('recipe.cake') }}
 
       - name: Build project
-        uses: cake-build/cake-action@v1
+        uses: cake-build/cake-action@v1.4.1
         with:
           script-path: recipe.cake
           target: CI
           verbosity: Normal
-          cake-version: 0.38.5
-          cake-bootstrap: true
+          cake-version: tool-manifest
 
       - name: Upload Issues-Report
         uses: actions/upload-artifact@v3

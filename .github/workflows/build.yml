@@ -42,44 +42,44 @@ jobs:
       WYAM_DEPLOY_REMOTE: ${{ github.event.repository.html_url }}
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Fetch all tags and branches
         run: git fetch --prune --unshallow
         
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3.0.3
         with:          
           # gitversion needs 5.0 and we need all SDKs the project is targeting
           dotnet-version: |
             3.1.415
             5.0.403
             6.0.100
+            7.0.100
 
       - name: Cache Tools
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: tools
           key: ${{ runner.os }}-tools-${{ hashFiles('recipe.cake') }}
 
       - name: Build project
-        uses: cake-build/cake-action@v1
+        uses: cake-build/cake-action@v1.4.1
         with:
           script-path: recipe.cake
           target: CI
           verbosity: Normal
-          cake-version: 0.38.5
-          cake-bootstrap: true
+          cake-version: tool-manifest
 
       - name: Upload Issues-Report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           if-no-files-found: warn
           name: issues
           path: BuildArtifacts/report.html
 
       - name: Upload Packages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           if-no-files-found: warn
           name: package

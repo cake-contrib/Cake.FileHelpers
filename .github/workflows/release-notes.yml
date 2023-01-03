@@ -11,23 +11,23 @@ jobs:
 
     steps:
       - name: Checkout the requested branch
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v3
       - name: Fetch all tags and branches
         run: git fetch --prune --unshallow
       - name: Cache Tools
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v3
         with:
           path: tools
           key: ${{ runner.os }}-tools-${{ hashFiles('recipe.cake') }}
       - name: Set up git version
         if: ${{ !contains(github.ref, '/hotfix/') && !contains(github.ref, '/release/') }}
-        uses: gittools/actions/gitversion/setup@v0.9.11
+        uses: gittools/actions/gitversion/setup@v0.9.15
         with:
           versionSpec: "5.x"
       - name: Run git version
         if: ${{ !contains(github.ref, '/hotfix/') && !contains(github.ref, '/release/') }}
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.11
+        uses: gittools/actions/gitversion/execute@v0.9.15
       - name: Create release branch ${{ github.event.inputs.version }}
         if: ${{ steps.gitversion.outputs.majorMinorPatch }}
         run: git switch -c release/${{ steps.gitversion.outputs.majorMinorPatch }}
@@ -38,10 +38,9 @@ jobs:
           branch: "release/${{ steps.gitversion.outputs.majorMinorPatch }}"
           github_token: ${{ secrets.GH_TOKEN }}
       - name: Drafting Release Notes
-        uses: cake-build/cake-action@v1
+        uses: cake-build/cake-action@v1.4.1
         with:
           script-path: recipe.cake
           target: releasenotes
           verbosity: Diagnostic
-          cake-version: 0.38.5
-          cake-bootstrap: true
+          cake-version: tool-manifest

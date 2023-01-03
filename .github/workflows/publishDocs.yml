@@ -15,22 +15,21 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkout@v2.3.4 #https://github.com/actions/checkout
+      uses: actions/checkout@v3 #https://github.com/actions/checkout
       with:
         fetch-depth: 0 # GitVersion is somewhat irritated when fetch-depth is "1"....
         ref: ${{ github.event.ref }}
 
     - name: Cache Tools
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: tools
         key: ${{ runner.os }}-doc-tools-${{ hashFiles('recipe.cake') }}
 
     - name: Publishing documentation
-      uses: cake-build/cake-action@v1
+      uses: cake-build/cake-action@v1.4.1
       with:
         script-path: recipe.cake
         target: Force-Publish-Documentation
         verbosity: Diagnostic
-        cake-version: 0.38.5
-        cake-bootstrap: true
+        cake-version: tool-manifest

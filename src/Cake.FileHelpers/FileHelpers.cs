@@ -495,6 +495,29 @@ namespace Cake.FileHelpers
         }
 
         /// <summary>
+        /// Finds files with the given text in files matching the given collection of files.
+        /// </summary>
+        /// <returns>The files which match the regular expession in the files.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="files">The files to find text in.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="substring">The substring to find.</param>
+        [CakeMethodAlias]
+        public static FilePath[] FindTextInFiles(this ICakeContext context, IEnumerable<FilePath> files, Encoding encoding, string substring)
+        {
+            var results = new ConcurrentBag<FilePath>();
+
+            Parallel.ForEach(files, f =>
+            {
+                var contents = FileReadText(context, f, encoding);
+                if (contents.Contains(substring))
+                    results.Add(f);
+            });
+
+            return results.ToArray();
+        }
+
+        /// <summary>
         /// Finds the regex matches in a text file.
         /// </summary>
         /// <returns>The regex matches in file.</returns>
@@ -616,6 +639,34 @@ namespace Cake.FileHelpers
         }
 
         /// <summary>
+        /// Finds regex matches in a file and returns all match groups.
+        /// </summary>
+        /// <returns>The matches with their groups.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="rxFindPattern">The regex pattern to search for.</param>
+        /// <param name="rxOptions">The regex options.</param>
+        [CakeMethodAlias]
+        public static List<List<Group>> FindRegexMatchesGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        {
+            if (!context.FileSystem.Exist(file))
+                return null;
+
+            var rx = new Regex(rxFindPattern, rxOptions);
+            var contents = FileReadText(context, file, encoding);
+
+            var values = new List<List<Group>>();
+
+            var matches = rx.Matches(contents);
+            foreach (Match m in matches)
+                if (m.Success)
+                    values.Add(m.Groups.Cast<Group>().ToList());
+
+            return values;
+        }
+
+        /// <summary>
         /// Finds the first regex match in a file and returns all match groups.
         /// </summary>
         /// <returns>The match groups.</returns>
@@ -624,11 +675,28 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<Group> FindRegexMatchGroupsInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        public static List<Group> FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
         {
-            var groups = FindRegexMatchesGroupsInFile (context, file, rxFindPattern, rxOptions);
+            var groups = FindRegexMatchesGroupsInFile(context, file, rxFindPattern, rxOptions);
 
-            return groups?.FirstOrDefault ();
+            return groups?.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Finds the first regex match in a file and returns all match groups.
+        /// </summary>
+        /// <returns>The match groups.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="rxFindPattern">The regex pattern to search for.</param>
+        /// <param name="rxOptions">The regex options.</param>
+        [CakeMethodAlias]
+        public static List<Group> FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        {
+            var groups = FindRegexMatchesGroupsInFile(context, file, encoding, rxFindPattern, rxOptions);
+
+            return groups?.FirstOrDefault();
         }
 
         /// <summary>
@@ -645,6 +713,28 @@ namespace Cake.FileHelpers
         {
             var matchesGroups = FindRegexMatchesGroupsInFile (context, file, rxFindPattern, rxOptions);
             var matchGroups = matchesGroups?.FirstOrDefault ();
+
+            if (matchGroups != null && matchGroups.Count > groupIndex)
+                return matchGroups[groupIndex];
+
+            return null;
+        }
+
+        /// <summary>
+        /// Finds the first regex match in a file and returns a specific match group.
+        /// </summary>
+        /// <returns>The matches with their groups.</returns>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="rxFindPattern">The regex pattern to search for.</param>
+        /// <param name="groupIndex">The specific match group.</param>
+        /// <param name="rxOptions">The regex options.</param>
+        [CakeMethodAlias]
+        public static Group FindRegexMatchGroupInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, int groupIndex, RegexOptions rxOptions)
+        {
+            var matchesGroups = FindRegexMatchesGroupsInFile(context, file, encoding, rxFindPattern, rxOptions);
+            var matchGroups = matchesGroups?.FirstOrDefault();
 
             if (matchGroups != null && matchGroups.Count > groupIndex)
                 return matchGroups[groupIndex];

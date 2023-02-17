@@ -27,9 +27,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static string FileReadText (this ICakeContext context, FilePath file)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            return File.ReadAllText (filename);
+            using var streamReader = CreateStreamReader(context, file);
+            return streamReader.ReadToEnd();
         }
 
         /// <summary>
@@ -42,9 +41,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static string FileReadText(this ICakeContext context, FilePath file, Encoding encoding)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            return File.ReadAllText(filename, encoding);
+            using var streamReader = CreateStreamReader(context, file, encoding);
+            return streamReader.ReadToEnd();
         }
 
         /// <summary>
@@ -56,9 +54,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static string[] FileReadLines (this ICakeContext context, FilePath file)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            return File.ReadAllLines (filename);
+            using var streamReader = CreateStreamReader(context, file);
+            return ReadLines(streamReader);
         }
 
         /// <summary>
@@ -71,9 +68,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static string[] FileReadLines(this ICakeContext context, FilePath file, Encoding encoding)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            return File.ReadAllLines(filename, encoding);
+            using var streamReader = CreateStreamReader(context, file, encoding);
+            return ReadLines(streamReader);
         }
 
         /// <summary>
@@ -85,9 +81,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileWriteText (this ICakeContext context, FilePath file, string text)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            File.WriteAllText (filename, text);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create);
+            streamWriter.Write(text);
         }
 
         /// <summary>
@@ -100,9 +95,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileWriteText(this ICakeContext context, FilePath file, Encoding encoding, string text)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            File.WriteAllText(filename, text, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create, encoding);
+            streamWriter.Write(text);
         }
 
         /// <summary>
@@ -114,9 +108,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileWriteLines (this ICakeContext context, FilePath file, string[] lines)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            File.WriteAllLines (filename, lines);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create);
+            WriteLines(streamWriter, lines);
         }
 
         /// <summary>
@@ -129,9 +122,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileWriteLines(this ICakeContext context, FilePath file, Encoding encoding, string[] lines)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            File.WriteAllLines(filename, lines, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create, encoding);
+            WriteLines(streamWriter, lines);
         }
 
         /// <summary>
@@ -143,9 +135,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendText (this ICakeContext context, FilePath file, string text)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            File.AppendAllText (filename, text);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate);
+            streamWriter.Write(text);
         }
 
         /// <summary>
@@ -158,9 +149,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendText(this ICakeContext context, FilePath file, Encoding encoding, string text)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            File.AppendAllText(filename, text, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate, encoding);
+            streamWriter.Write(text);
         }
 
         /// <summary>
@@ -172,9 +162,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendLines (this ICakeContext context, FilePath file, string[] lines)
         {
-            var filename = file.MakeAbsolute (context.Environment).FullPath;
-
-            File.AppendAllLines (filename, lines);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate);
+            WriteLines(streamWriter, lines);
         }
 
         /// <summary>
@@ -187,9 +176,8 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendLines(this ICakeContext context, FilePath file, Encoding encoding, string[] lines)
         {
-            var filename = file.MakeAbsolute(context.Environment).FullPath;
-
-            File.AppendAllLines(filename, lines, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate, encoding);
+            WriteLines(streamWriter, lines);
         }
 
         /// <summary>
@@ -740,6 +728,44 @@ namespace Cake.FileHelpers
                 return matchGroups[groupIndex];
 
             return null;
+        }
+
+
+        private static StreamReader CreateStreamReader(ICakeContext context, FilePath file, Encoding? encoding = null)
+        {
+            var stream = context.FileSystem.GetFile(file).OpenRead();
+            return encoding is null
+                ? new StreamReader(stream, leaveOpen: false)
+                : new StreamReader(stream, encoding, leaveOpen: false);
+        }
+
+        private static StreamWriter CreateStreamWriter(ICakeContext context, FilePath file, FileMode mode, Encoding? encoding = null)
+        {
+            var stream = context.FileSystem.GetFile(file).Open(mode);
+            return encoding is null
+                ? new StreamWriter(stream, leaveOpen: false)
+                : new StreamWriter(stream, encoding, leaveOpen: false);
+        }
+
+        private static string[] ReadLines(StreamReader streamReader)
+        {
+            var lines = new List<string>();
+
+            string line;
+            while ((line = streamReader.ReadLine()) is not null)
+            {
+                lines.Add(line);
+            }
+
+            return lines.ToArray();
+        }
+
+        private static void WriteLines(StreamWriter streamWriter, string[] lines) 
+        { 
+            foreach (var line in lines)
+            {
+                streamWriter.WriteLine(line);
+            }
         }
     }
 }

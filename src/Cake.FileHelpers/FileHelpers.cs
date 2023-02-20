@@ -732,7 +732,7 @@ namespace Cake.FileHelpers
 
         private static StreamReader CreateStreamReader(ICakeContext context, FilePath file, Encoding encoding = null)
         {
-            var stream = context.FileSystem.GetFile(file).OpenRead();
+            var stream = context.FileSystem.GetFile(file.MakeAbsolute(context.Environment)).OpenRead();
             return encoding is null
                 ? new StreamReader(stream, leaveOpen: false)
                 : new StreamReader(stream, encoding, leaveOpen: false);
@@ -740,7 +740,7 @@ namespace Cake.FileHelpers
 
         private static StreamWriter CreateStreamWriter(ICakeContext context, FilePath file, FileMode mode, Encoding encoding = null)
         {
-            var stream = context.FileSystem.GetFile(file).Open(mode);
+            var stream = context.FileSystem.GetFile(file.MakeAbsolute(context.Environment)).Open(mode);
             return encoding is null
                 ? new StreamWriter(stream, leaveOpen: false)
                 : new StreamWriter(stream, encoding, leaveOpen: false);

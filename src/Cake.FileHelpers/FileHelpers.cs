@@ -135,7 +135,7 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendText (this ICakeContext context, FilePath file, string text)
         {
-            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append);
             streamWriter.Write(text);
         }
 
@@ -149,7 +149,7 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendText(this ICakeContext context, FilePath file, Encoding encoding, string text)
         {
-            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append, encoding);
             streamWriter.Write(text);
         }
 
@@ -162,7 +162,7 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendLines (this ICakeContext context, FilePath file, string[] lines)
         {
-            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append);
             WriteLines(streamWriter, lines);
         }
 
@@ -176,7 +176,7 @@ namespace Cake.FileHelpers
         [CakeMethodAlias]
         public static void FileAppendLines(this ICakeContext context, FilePath file, Encoding encoding, string[] lines)
         {
-            using var streamWriter = CreateStreamWriter(context, file, FileMode.OpenOrCreate, encoding);
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append, encoding);
             WriteLines(streamWriter, lines);
         }
 

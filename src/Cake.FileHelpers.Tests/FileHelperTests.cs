@@ -60,6 +60,132 @@ namespace Cake.FileHelpers.Tests
         }
 
         [Fact]
+        public void TestAppendToNewFileAndReadText()
+        {
+            const string file = "./testdata/Text.txt";
+            const string contents = "This is a test";
+
+            context.CakeContext.FileAppendText(file, contents);
+
+            var read = context.CakeContext.FileReadText(file);
+
+            Assert.Equal(contents, read);
+        }
+
+        [Fact]
+        public void TestAppendToExistingFileAndReadText()
+        {
+            const string file = "./testdata/Text.txt";
+            const string contents1 = "This is ";
+            const string contents2 = "a test";
+
+            context.CakeContext.FileAppendText(file, contents1);
+            context.CakeContext.FileAppendText(file, contents2);
+
+            var read = context.CakeContext.FileReadText(file);
+
+            Assert.Equal(contents1 + contents2, read);
+        }
+
+        [Fact]
+        public void TestAppendToNewFileAndReadTextWithUTF8Encoding()
+        {
+            const string file = "./testdata/Text.txt";
+            const string contents = "Monkey🐒";
+
+            context.CakeContext.FileAppendText(file, Encoding.UTF8, contents);
+
+            var read = context.CakeContext.FileReadText(file, Encoding.UTF8);
+
+            Assert.Equal(contents, read);
+        }
+
+        [Fact]
+        public void TestAppendToExistingFileAndReadTextWithUTF8Encoding()
+        {
+            const string file = "./testdata/Text.txt";
+            const string contents1 = "Monkey";
+            const string contents2 = "🐒";
+
+            context.CakeContext.FileAppendText(file, Encoding.UTF8, contents1);
+            context.CakeContext.FileAppendText(file, Encoding.UTF8, contents2);
+
+            var read = context.CakeContext.FileReadText(file, Encoding.UTF8);
+
+            Assert.Equal(contents1 + contents2, read);
+        }
+
+        [Fact]
+        public void TestAppendLinesToNewFileAndReadLines()
+        {
+            const string file = "./testdata/Text.txt";
+            var contents = new[] { "This", "is", "a", "test" };
+
+            context.CakeContext.FileAppendLines(file, contents);
+
+            var read = context.CakeContext.FileReadLines(file);
+
+            Assert.Equal(contents.Length, read.Length);
+
+            for (int i = 0; i < read.Length; i++)
+                Assert.Equal(contents[i], read[i]);
+        }
+
+        [Fact]
+        public void TestAppendLinesToExistingFileAndReadLines()
+        {
+            const string file = "./testdata/Text.txt";
+            var contents = new[] { "This", "is", "a", "test" };
+            var contents1 = new[] { contents[0], contents[1] };
+            var contents2 = new[] { contents[2], contents[3] };
+
+            context.CakeContext.FileAppendLines(file, contents1);
+            context.CakeContext.FileAppendLines(file, contents2);
+
+            var read = context.CakeContext.FileReadLines(file);
+
+            Assert.Equal(contents.Length, read.Length);
+
+            for (int i = 0; i < read.Length; i++)
+                Assert.Equal(contents[i], read[i]);
+        }
+
+        [Fact]
+        public void TestAppendLinesToNewFileAndReadLinesWithUTF8Encoding()
+        {
+            const string file = "./testdata/Text.txt";
+            var contents = new[] { "This is a test", "Monkey🐒" };
+
+            context.CakeContext.FileAppendLines(file, Encoding.UTF8, contents);
+
+            var read = context.CakeContext.FileReadLines(file, Encoding.UTF8);
+
+            Assert.Equal(contents.Length, read.Length);
+
+            for (int i = 0; i < read.Length; i++)
+                Assert.Equal(contents[i], read[i]);
+        }
+
+        [Fact]
+        public void TestAppendLinesToExistingFileAndReadLinesWithUTF8Encoding()
+        {
+            const string file = "./testdata/Text.txt";
+            var contents = new[] { "This is a test", "Monkey🐒" };
+            var contents1 = new[] { contents[0] };
+            var contents2 = new[] { contents[1] };
+
+            context.CakeContext.FileAppendLines(file, Encoding.UTF8, contents1);
+            context.CakeContext.FileAppendLines(file, Encoding.UTF8, contents2);
+
+            var read = context.CakeContext.FileReadLines(file, Encoding.UTF8);
+
+            Assert.Equal(contents.Length, read.Length);
+
+            for (int i = 0; i < read.Length; i++)
+                Assert.Equal(contents[i], read[i]);
+        }
+
+        [Fact]
         public void FindTextInFilesGlob()
         {
             SetupFiles();

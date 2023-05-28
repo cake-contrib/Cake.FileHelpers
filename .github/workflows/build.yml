@@ -48,7 +48,7 @@ jobs:
         run: git fetch --prune --unshallow
         
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@v3.0.3
+        uses: actions/setup-dotnet@v3.1.0
         with:          
           # gitversion needs 5.0 and we need all SDKs the project is targeting
           dotnet-version: |

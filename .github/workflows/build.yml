@@ -53,9 +53,8 @@ jobs:
           # gitversion needs 5.0 and we need all SDKs the project is targeting
           dotnet-version: |
             5.0.403
-            6.0.100
-            7.0.100
             8.0.100
+            9.0.100
 
       - name: Cache Tools
         uses: actions/cache@v3

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
@@ -23,10 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Common" Version="4.0.0" PrivateAssets="All" />
-    <PackageReference Include="Cake.Core" Version="4.0.0" PrivateAssets="All" />
+    <PackageReference Include="Cake.Common" Version="5.0.0" PrivateAssets="All" />
+    <PackageReference Include="Cake.Core" Version="5.0.0" PrivateAssets="All" />
 
-    <PackageReference Include="CakeContrib.Guidelines" Version="1.5.1">
+    <PackageReference Include="CakeContrib.Guidelines" Version="1.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -43,5 +43,7 @@
   <ItemGroup>
     <CakeContribGuidelinesOmitRecommendedReference Include="StyleCop.Analyzers" />
     <CakeContribGuidelinesOmitRecommendedConfigFile Include="stylecop.json" />
-</ItemGroup>
+    <CakeContribGuidelinesOmitTargetFramework Include="net6.0" />
+    <CakeContribGuidelinesOmitTargetFramework Include="net7.0" />
+  </ItemGroup>
 </Project>

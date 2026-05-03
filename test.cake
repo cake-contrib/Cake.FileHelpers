@@ -1,12 +1,20 @@
 #reference "BuildArtifacts/temp/_PublishedLibraries/Cake.FileHelpers/net9.0/Cake.FileHelpers.dll"
 
 // Self-contained exercise of Cake.FileHelpers aliases against a temp
-// working directory. Creates files, reads/writes/appends/replaces, then
-// cleans up. Runs without any external state or credentials.
+// working directory. Each task asserts the expected outcome and throws
+// on mismatch — the script fails (non-zero exit) if any alias misbehaves.
 
 var workDir = Directory("./BuildArtifacts/temp/test-filehelpers");
 var sampleFile = workDir + File("sample.txt");
 var sampleFile2 = workDir + File("sample2.txt");
+
+void AssertThat(bool condition, string message)
+{
+    if (!condition)
+    {
+        throw new Exception("Assertion failed: " + message);
+    }
+}
 
 Task("Default")
     .IsDependentOn("Setup")
@@ -21,6 +29,11 @@ Task("Default")
 Task("Setup")
     .Does(() =>
 {
+    if (DirectoryExists(workDir))
+    {
+        DeleteDirectory(workDir, new DeleteDirectorySettings { Recursive = true });
+    }
+
     EnsureDirectoryExists(workDir);
     System.IO.File.WriteAllLines(
         sampleFile.Path.FullPath,
@@ -34,10 +47,14 @@ Task("Read-Operations")
     .Does(() =>
 {
     var lines = FileReadLines(sampleFile);
-    Information("FileReadLines -> {0} line(s); first: \"{1}\"", lines.Length, lines.FirstOrDefault());
+    AssertThat(lines.Length == 4, "FileReadLines: expected 4 lines, got " + lines.Length);
+    AssertThat(lines[0] == "alpha line 1", "FileReadLines: first line mismatch");
+    AssertThat(lines[3] == "alpha line 4", "FileReadLines: last line mismatch");
+    Information("FileReadLines OK ({0} lines)", lines.Length);
 
     var text = FileReadText(sampleFile);
-    Information("FileReadText -> {0} char(s)", text.Length);
+    AssertThat(text.Contains("gamma 42 delta"), "FileReadText: expected content not found");
+    Information("FileReadText OK ({0} chars)", text.Length);
 });
 
 Task("Write-Operations")
@@ -45,12 +62,17 @@ Task("Write-Operations")
     .Does(() =>
 {
     var writeFile = workDir + File("written.txt");
+
     FileWriteText(writeFile, "first text\n");
-    Information("FileWriteText -> {0} char(s) on disk", System.IO.File.ReadAllText(writeFile.Path.FullPath).Length);
+    var afterText = System.IO.File.ReadAllText(writeFile.Path.FullPath);
+    AssertThat(afterText == "first text\n", "FileWriteText: content mismatch");
+    Information("FileWriteText OK");
 
     FileWriteLines(writeFile, new[] { "line A", "line B", "line C" });
-    var afterWrite = FileReadLines(writeFile);
-    Information("FileWriteLines -> {0} line(s) on disk", afterWrite.Length);
+    var afterLines = FileReadLines(writeFile);
+    AssertThat(afterLines.Length == 3, "FileWriteLines: expected 3 lines, got " + afterLines.Length);
+    AssertThat(afterLines[1] == "line B", "FileWriteLines: line 2 mismatch");
+    Information("FileWriteLines OK (overwrote with {0} lines)", afterLines.Length);
 });
 
 Task("Append-Operations")
@@ -58,10 +80,17 @@ Task("Append-Operations")
     .Does(() =>
 {
     var writeFile = workDir + File("written.txt");
+    var beforeLines = FileReadLines(writeFile);
+
     FileAppendText(writeFile, "appended text\n");
     FileAppendLines(writeFile, new[] { "appended line 1", "appended line 2" });
-    var lines = FileReadLines(writeFile);
-    Information("After append, file has {0} line(s)", lines.Length);
+    var afterLines = FileReadLines(writeFile);
+
+    AssertThat(afterLines.Length == beforeLines.Length + 3,
+        $"Append: expected {beforeLines.Length + 3} lines, got {afterLines.Length}");
+    AssertThat(afterLines[afterLines.Length - 1] == "appended line 2",
+        "Append: last line mismatch");
+    Information("FileAppendText + FileAppendLines OK ({0} lines after append)", afterLines.Length);
 });
 
 Task("Touch")
@@ -75,45 +104,62 @@ Task("Touch")
     System.Threading.Thread.Sleep(10);
     FileTouch(touchFile);
     var afterUtc = System.IO.File.GetLastWriteTimeUtc(touchFile.Path.FullPath);
-    Information("FileTouch -> last write {0} -> {1} (advanced: {2})",
-        beforeUtc.ToString("o"), afterUtc.ToString("o"), afterUtc > beforeUtc);
+
+    AssertThat(afterUtc > beforeUtc,
+        $"FileTouch: timestamp did not advance (before={beforeUtc:o}, after={afterUtc:o})");
+    Information("FileTouch OK (advanced from {0:o} to {1:o})", beforeUtc, afterUtc);
 });
 
 Task("Find-Operations")
     .IsDependentOn("Setup")
     .Does(() =>
 {
-    var byText = FindTextInFiles(workDir + File("*.txt"), "alpha");
-    Information("FindTextInFiles 'alpha' -> {0} file(s)", byText.Length);
+    var byText = FindTextInFiles(workDir + File("sample*.txt"), "alpha");
+    AssertThat(byText.Length == 2, "FindTextInFiles 'alpha': expected 2 files, got " + byText.Length);
+    Information("FindTextInFiles 'alpha' OK ({0} files)", byText.Length);
 
-    var byRegex = FindRegexInFiles(workDir + File("*.txt"), @"\d+");
-    Information("FindRegexInFiles digits -> {0} file(s)", byRegex.Length);
+    var byRegex = FindRegexInFiles(workDir + File("sample*.txt"), @"\d+");
+    AssertThat(byRegex.Length == 1, "FindRegexInFiles digits: expected 1 file (sample.txt has '42'), got " + byRegex.Length);
+    Information("FindRegexInFiles digits OK ({0} file)", byRegex.Length);
 
     var single = FindRegexMatchInFile(sampleFile, @"\d+", System.Text.RegularExpressions.RegexOptions.None);
-    Information("FindRegexMatchInFile digits -> \"{0}\"", single ?? "(null)");
+    AssertThat(single == "1", "FindRegexMatchInFile: expected first digit run '1' (from 'line 1'), got " + (single ?? "null"));
+    Information("FindRegexMatchInFile digits OK ('{0}')", single);
 
     var many = FindRegexMatchesInFile(sampleFile, @"alpha", System.Text.RegularExpressions.RegexOptions.None);
-    Information("FindRegexMatchesInFile 'alpha' -> {0} match(es)", many?.Count ?? 0);
+    AssertThat(many != null && many.Count == 2, $"FindRegexMatchesInFile 'alpha': expected 2 matches, got {many?.Count ?? 0}");
+    Information("FindRegexMatchesInFile 'alpha' OK ({0} matches)", many.Count);
 
     var group = FindRegexMatchGroupInFile(sampleFile, @"gamma (\d+)", 1, System.Text.RegularExpressions.RegexOptions.None);
-    Information("FindRegexMatchGroupInFile -> \"{0}\"", group?.Value ?? "(null)");
+    AssertThat(group != null && group.Value == "42", "FindRegexMatchGroupInFile: expected group '42', got " + (group?.Value ?? "null"));
+    Information("FindRegexMatchGroupInFile OK ('{0}')", group.Value);
 
-    var groups = FindRegexMatchGroupsInFile(sampleFile, @"(alpha) (\w+)", System.Text.RegularExpressions.RegexOptions.None);
-    Information("FindRegexMatchGroupsInFile -> {0} group(s)", groups?.Count ?? 0);
+    var groups = FindRegexMatchGroupsInFile(sampleFile, @"(alpha) (line)", System.Text.RegularExpressions.RegexOptions.None);
+    AssertThat(groups != null && groups.Count == 3, $"FindRegexMatchGroupsInFile: expected 3 groups (full + 2 captures), got {groups?.Count ?? 0}");
+    Information("FindRegexMatchGroupsInFile OK ({0} groups)", groups.Count);
 
-    var allGroups = FindRegexMatchesGroupsInFile(sampleFile, @"(alpha) (\w+)", System.Text.RegularExpressions.RegexOptions.None);
-    Information("FindRegexMatchesGroupsInFile -> {0} match(es)", allGroups?.Count ?? 0);
+    var allGroups = FindRegexMatchesGroupsInFile(sampleFile, @"(alpha) (line)", System.Text.RegularExpressions.RegexOptions.None);
+    AssertThat(allGroups != null && allGroups.Count == 2, $"FindRegexMatchesGroupsInFile: expected 2 matches, got {allGroups?.Count ?? 0}");
+    Information("FindRegexMatchesGroupsInFile OK ({0} matches)", allGroups.Count);
 });
 
 Task("Replace-Operations")
     .IsDependentOn("Setup")
     .Does(() =>
 {
-    var changed = ReplaceTextInFiles(workDir + File("*.txt"), "alpha", "ALPHA");
-    Information("ReplaceTextInFiles 'alpha'->'ALPHA' -> changed {0} file(s)", changed.Length);
+    var changed = ReplaceTextInFiles(workDir + File("sample*.txt"), "alpha", "ALPHA");
+    AssertThat(changed.Length == 2, "ReplaceTextInFiles 'alpha'->'ALPHA': expected 2 changed files, got " + changed.Length);
 
-    var changedRx = ReplaceRegexInFiles(workDir + File("*.txt"), @"beta", "BETA");
-    Information("ReplaceRegexInFiles 'beta'->'BETA' -> changed {0} file(s)", changedRx.Length);
+    // Verify content actually changed
+    var afterText = FileReadText(sampleFile);
+    AssertThat(afterText.Contains("ALPHA") && !afterText.Contains("alpha"), "ReplaceTextInFiles: replacement not applied to sample.txt");
+    Information("ReplaceTextInFiles OK ({0} files modified)", changed.Length);
+
+    var changedRx = ReplaceRegexInFiles(workDir + File("sample*.txt"), @"beta", "BETA");
+    AssertThat(changedRx.Length == 1, "ReplaceRegexInFiles 'beta'->'BETA': expected 1 changed file (only sample.txt has 'beta'), got " + changedRx.Length);
+    var afterRegex = FileReadText(sampleFile);
+    AssertThat(afterRegex.Contains("BETA"), "ReplaceRegexInFiles: replacement not applied");
+    Information("ReplaceRegexInFiles OK ({0} files modified)", changedRx.Length);
 });
 
 Task("Cleanup")

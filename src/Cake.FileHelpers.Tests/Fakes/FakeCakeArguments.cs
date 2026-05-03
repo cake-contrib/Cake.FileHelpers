@@ -67,7 +67,7 @@ namespace Cake.Xamarin.Tests.Fakes
         ///  Gets all command line arguments.
         /// </summary>
         /// <returns></returns>
-        public IDictionary<string, ICollection<string>> GetArguments()
+        public IDictionary<string, ICollection<string>>? GetArguments()
         {
             return _arguments as IDictionary<string, ICollection<string>>;
         }
@@ -77,7 +77,7 @@ namespace Cake.Xamarin.Tests.Fakes
         /// </summary>
         /// <param name="name">The argument name.</param>
         /// <returns>The argument value.</returns>
-        public string GetArgument(string name)
+        public string? GetArgument(string name)
         {
             return GetArguments(name).LastOrDefault();
         }

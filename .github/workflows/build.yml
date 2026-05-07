@@ -83,6 +83,24 @@ jobs:
           verbosity: Normal
           cake-version: tool-manifest
 
+      # The demo/ folders exercise the just-built addin DLL under
+      # Cake-major-matching cake.tool / Cake.Frosting versions. They run
+      # in their OWN tool/package context (independent of recipe.cake's
+      # cake.tool, which is constrained by Cake.Recipe's runtime). Both
+      # consume the addin from BuildArtifacts/temp/_PublishedLibraries/
+      # populated by DotNetCore-Pack. demo/sdk joins at the Cake 6
+      # catch-up release.
+
+      - name: Run demo/script
+        if: success()
+        shell: pwsh
+        run: ./demo/script/build.ps1
+
+      - name: Run demo/frosting
+        if: success()
+        shell: pwsh
+        run: ./demo/frosting/build.ps1
+
       - name: Upload Issues-Report
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:

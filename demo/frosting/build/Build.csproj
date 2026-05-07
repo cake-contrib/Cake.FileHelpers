@@ -9,6 +9,6 @@
     <Reference Include="Cake.FileHelpers">
       <HintPath>$(MSBuildProjectDirectory)\..\..\..\BuildArtifacts\temp\_PublishedLibraries\Cake.FileHelpers\net8.0\Cake.FileHelpers.dll</HintPath>
     </Reference>
-    <PackageReference Include="Cake.Frosting" Version="5.1.0" />
+    <PackageReference Include="Cake.Frosting" Version="6.1.0" />
   </ItemGroup>
 </Project>

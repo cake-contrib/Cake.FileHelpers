@@ -127,6 +127,33 @@ namespace Cake.FileHelpers
         }
 
         /// <summary>
+        /// Writes all text lines to a file
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file to write to.</param>
+        /// <param name="lines">The text lines to write.</param>
+        [CakeMethodAlias]
+        public static void FileWriteLines(this ICakeContext context, FilePath file, IEnumerable<string> lines)
+        {
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create);
+            WriteLines(streamWriter, lines);
+        }
+
+        /// <summary>
+        /// Writes all text lines to a file
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file to write to.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="lines">The text lines to write.</param>
+        [CakeMethodAlias]
+        public static void FileWriteLines(this ICakeContext context, FilePath file, Encoding encoding, IEnumerable<string> lines)
+        {
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Create, encoding);
+            WriteLines(streamWriter, lines);
+        }
+
+        /// <summary>
         /// Appends all text to a file
         /// </summary>
         /// <param name="context">The context.</param>
@@ -175,6 +202,33 @@ namespace Cake.FileHelpers
         /// <param name="lines">The text lines to append.</param>
         [CakeMethodAlias]
         public static void FileAppendLines(this ICakeContext context, FilePath file, Encoding encoding, string[] lines)
+        {
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append, encoding);
+            WriteLines(streamWriter, lines);
+        }
+
+        /// <summary>
+        /// Appends all text lines to a file
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file to append text to.</param>
+        /// <param name="lines">The text lines to append.</param>
+        [CakeMethodAlias]
+        public static void FileAppendLines(this ICakeContext context, FilePath file, IEnumerable<string> lines)
+        {
+            using var streamWriter = CreateStreamWriter(context, file, FileMode.Append);
+            WriteLines(streamWriter, lines);
+        }
+
+        /// <summary>
+        /// Appends all text lines to a file
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="file">The file to append text to.</param>
+        /// <param name="encoding">The encoding to use for the file.</param>
+        /// <param name="lines">The text lines to append.</param>
+        [CakeMethodAlias]
+        public static void FileAppendLines(this ICakeContext context, FilePath file, Encoding encoding, IEnumerable<string> lines)
         {
             using var streamWriter = CreateStreamWriter(context, file, FileMode.Append, encoding);
             WriteLines(streamWriter, lines);
@@ -759,7 +813,7 @@ namespace Cake.FileHelpers
             return lines.ToArray();
         }
 
-        private static void WriteLines(StreamWriter streamWriter, string[] lines) 
+        private static void WriteLines(StreamWriter streamWriter, IEnumerable<string> lines)
         { 
             foreach (var line in lines)
             {

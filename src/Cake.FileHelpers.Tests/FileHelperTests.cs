@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Cake.Xamarin.Tests.Fakes;
 using Cake.Core.IO;
@@ -183,6 +184,64 @@ namespace Cake.FileHelpers.Tests
 
             for (int i = 0; i < read.Length; i++)
                 Assert.Equal(contents[i], read[i]);
+        }
+
+        [Fact]
+        public void TestWriteLinesAcceptsIEnumerable()
+        {
+            const string file = "./testdata/Lines.txt";
+            IEnumerable<string> contents = new List<string> { "This", "is", "a", "test" };
+
+            context.CakeContext.FileWriteLines(file, contents);
+
+            var read = context.CakeContext.FileReadLines(file);
+
+            Assert.Equal(4, read.Length);
+            Assert.Equal("This", read[0]);
+            Assert.Equal("test", read[3]);
+        }
+
+        [Fact]
+        public void TestWriteLinesAcceptsIEnumerableWithUTF8Encoding()
+        {
+            const string file = "./testdata/Lines.txt";
+            IEnumerable<string> contents = new List<string> { "This is a test", "Monkey🐒" };
+
+            context.CakeContext.FileWriteLines(file, Encoding.UTF8, contents);
+
+            var read = context.CakeContext.FileReadLines(file, Encoding.UTF8);
+
+            Assert.Equal(2, read.Length);
+            Assert.Equal("Monkey🐒", read[1]);
+        }
+
+        [Fact]
+        public void TestAppendLinesAcceptsIEnumerable()
+        {
+            const string file = "./testdata/Text.txt";
+            IEnumerable<string> contents = new List<string> { "This", "is", "a", "test" };
+
+            context.CakeContext.FileAppendLines(file, contents);
+
+            var read = context.CakeContext.FileReadLines(file);
+
+            Assert.Equal(4, read.Length);
+            Assert.Equal("This", read[0]);
+            Assert.Equal("test", read[3]);
+        }
+
+        [Fact]
+        public void TestAppendLinesAcceptsIEnumerableWithUTF8Encoding()
+        {
+            const string file = "./testdata/Text.txt";
+            IEnumerable<string> contents = new List<string> { "This is a test", "Monkey🐒" };
+
+            context.CakeContext.FileAppendLines(file, Encoding.UTF8, contents);
+
+            var read = context.CakeContext.FileReadLines(file, Encoding.UTF8);
+
+            Assert.Equal(2, read.Length);
+            Assert.Equal("Monkey🐒", read[1]);
         }
 
         [Fact]

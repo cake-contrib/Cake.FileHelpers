@@ -47,7 +47,5 @@
   <ItemGroup>
     <CakeContribGuidelinesOmitRecommendedReference Include="StyleCop.Analyzers" />
     <CakeContribGuidelinesOmitRecommendedConfigFile Include="stylecop.json" />
-    <CakeContribGuidelinesOmitTargetFramework Include="net6.0" />
-    <CakeContribGuidelinesOmitTargetFramework Include="net7.0" />
   </ItemGroup>
 </Project>

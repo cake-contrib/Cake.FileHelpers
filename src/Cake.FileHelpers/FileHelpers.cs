@@ -1,4 +1,4 @@
-﻿using Cake.Core.Annotations;
+using Cake.Core.Annotations;
 using Cake.Core;
 using Cake.Core.IO;
 using System.IO;
@@ -514,7 +514,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<string> FindRegexMatchesInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        public static List<string>? FindRegexMatchesInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
         {
             if (!context.FileSystem.Exist (file))
                 return null;
@@ -542,7 +542,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<string> FindRegexMatchesInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        public static List<string>? FindRegexMatchesInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
         {
             if (!context.FileSystem.Exist(file))
                 return null;
@@ -569,7 +569,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static string FindRegexMatchInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        public static string? FindRegexMatchInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
         {
             var values = FindRegexMatchesInFile (context, file, rxFindPattern, rxOptions);
 
@@ -589,7 +589,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static string FindRegexMatchInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        public static string? FindRegexMatchInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
         {
             var values = FindRegexMatchesInFile(context, file, encoding, rxFindPattern, rxOptions);
 
@@ -608,7 +608,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<List<Group>> FindRegexMatchesGroupsInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        public static List<List<Group>>? FindRegexMatchesGroupsInFile (this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
         {
             if (!context.FileSystem.Exist (file))
                 return null;
@@ -636,7 +636,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<List<Group>> FindRegexMatchesGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        public static List<List<Group>>? FindRegexMatchesGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
         {
             if (!context.FileSystem.Exist(file))
                 return null;
@@ -663,7 +663,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<Group> FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
+        public static List<Group>? FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, string rxFindPattern, RegexOptions rxOptions)
         {
             var groups = FindRegexMatchesGroupsInFile(context, file, rxFindPattern, rxOptions);
 
@@ -680,7 +680,7 @@ namespace Cake.FileHelpers
         /// <param name="rxFindPattern">The regex pattern to search for.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static List<Group> FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
+        public static List<Group>? FindRegexMatchGroupsInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, RegexOptions rxOptions)
         {
             var groups = FindRegexMatchesGroupsInFile(context, file, encoding, rxFindPattern, rxOptions);
 
@@ -697,7 +697,7 @@ namespace Cake.FileHelpers
         /// <param name="groupIndex">The specific match group.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static Group FindRegexMatchGroupInFile (this ICakeContext context, FilePath file, string rxFindPattern, int groupIndex, RegexOptions rxOptions)
+        public static Group? FindRegexMatchGroupInFile (this ICakeContext context, FilePath file, string rxFindPattern, int groupIndex, RegexOptions rxOptions)
         {
             var matchesGroups = FindRegexMatchesGroupsInFile (context, file, rxFindPattern, rxOptions);
             var matchGroups = matchesGroups?.FirstOrDefault ();
@@ -719,7 +719,7 @@ namespace Cake.FileHelpers
         /// <param name="groupIndex">The specific match group.</param>
         /// <param name="rxOptions">The regex options.</param>
         [CakeMethodAlias]
-        public static Group FindRegexMatchGroupInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, int groupIndex, RegexOptions rxOptions)
+        public static Group? FindRegexMatchGroupInFile(this ICakeContext context, FilePath file, Encoding encoding, string rxFindPattern, int groupIndex, RegexOptions rxOptions)
         {
             var matchesGroups = FindRegexMatchesGroupsInFile(context, file, encoding, rxFindPattern, rxOptions);
             var matchGroups = matchesGroups?.FirstOrDefault();
@@ -730,7 +730,7 @@ namespace Cake.FileHelpers
             return null;
         }
 
-        private static StreamReader CreateStreamReader(ICakeContext context, FilePath file, Encoding encoding = null)
+        private static StreamReader CreateStreamReader(ICakeContext context, FilePath file, Encoding? encoding = null)
         {
             var stream = context.FileSystem.GetFile(file.MakeAbsolute(context.Environment)).OpenRead();
             return encoding is null
@@ -738,7 +738,7 @@ namespace Cake.FileHelpers
                 : new StreamReader(stream, encoding, leaveOpen: false);
         }
 
-        private static StreamWriter CreateStreamWriter(ICakeContext context, FilePath file, FileMode mode, Encoding encoding = null)
+        private static StreamWriter CreateStreamWriter(ICakeContext context, FilePath file, FileMode mode, Encoding? encoding = null)
         {
             var stream = context.FileSystem.GetFile(file.MakeAbsolute(context.Environment)).Open(mode);
             return encoding is null
@@ -750,7 +750,7 @@ namespace Cake.FileHelpers
         {
             var lines = new List<string>();
 
-            string line;
+            string? line;
             while ((line = streamReader.ReadLine()) is not null)
             {
                 lines.Add(line);

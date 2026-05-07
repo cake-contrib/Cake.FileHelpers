@@ -1,4 +1,4 @@
-#reference "BuildArtifacts/temp/_PublishedLibraries/Cake.FileHelpers/net9.0/Cake.FileHelpers.dll"
+#reference "../../BuildArtifacts/temp/_PublishedLibraries/Cake.FileHelpers/net8.0/Cake.FileHelpers.dll"
 
 // Self-contained exercise of Cake.FileHelpers aliases against a temp
 // working directory. Each task asserts the expected outcome and throws
